@@ -1,16 +1,74 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
+import { useAuth0 } from "@auth0/auth0-react";
 const Login = () => {
+    const { user, loginWithRedirect, isAuthenticated } = useAuth0();
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [loading, setLoading] = useState(false)
+    const navigate = useNavigate()
+
+
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            localStorage.setItem("token", user.name);
+            setTimeout(() => {
+                navigate("/");
+            }, 1000);
+        }
+    }, [isAuthenticated]);
+    const handleLogin = async () => {
+        setLoading(true)
+        try {
+            const response = await fetch('http://localhost:8000/user/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                localStorage.setItem("token", JSON.stringify(data.token))
+                //console.log(data)
+                alert('Login successful.');
+                setEmail("")
+                setPassword("")
+                setLoading(false)
+                navigate("/")
+
+                // Handle token storage and redirection here
+            } else {
+                setLoading(false)
+                alert(data.message);
+            }
+        } catch (error) {
+            console.error('Error during login:', error);
+            //setMessage('An error occurred. Please try again.');
+        }
+    };
     return (
         <DIV>
             <div className='box'>
                 <h3>Login</h3>
                 <div className='smallbox'>
-                    <input placeholder='Email' />
-                    <input placeholder='Password' />
-                    <button>Login</button>
-                    <h4>Don't have an account? <span>Signup</span></h4>
-                    <button style={{width:"50%"}}>Login with Google</button>
+                    <input placeholder='Email' value={email}
+                        onChange={(e) => setEmail(e.target.value)} />
+                    <input placeholder='Password' value={password}
+                        onChange={(e) => setPassword(e.target.value)} />
+                    <button onClick={handleLogin}>
+                        {
+                            loading ? "Loading..." : "Login"
+                        }
+                        {/* Login */}
+
+                    </button>
+                    <h4>Don't have an account? <Link to="/signup"><span>Signup</span></Link></h4>
+                    <button style={{ width: "50%" }} onClick={() => loginWithRedirect()}>Login with Google</button>
                 </div>
             </div>
         </DIV>
@@ -24,7 +82,7 @@ export default Login
 const DIV = styled.div`
          height: 100vh;
         width:100%;
-        border: 1px solid teal;
+       // border: 1px solid teal;
       
         
 
