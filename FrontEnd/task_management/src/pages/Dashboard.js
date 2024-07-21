@@ -25,7 +25,7 @@ const Dashboard = () => {
     const getTasks = async () => {
         setloading(true)
         try {
-            const response = await fetch("http://localhost:8000/task/tasks");
+            const response = await fetch("https://voosh-task-management.vercel.app/task/tasks");
             const data = await response.json();
             //console.log("uuu",data)
             setTasks(data);
@@ -45,7 +45,7 @@ const Dashboard = () => {
         console.log("BAC", id, newStatus);
     
         try {
-            const response = await fetch(`http://localhost:8000/task/tasks/${id}`, {
+            const response = await fetch(`https://voosh-task-management.vercel.app/task/tasks/${id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"
@@ -90,7 +90,7 @@ const Dashboard = () => {
     };
     const handleSave = async (task) => {
         try {
-            const response = await fetch(`http://localhost:8000/task/tasks/${task._id}`, {
+            const response = await fetch(`https://voosh-task-management.vercel.app/task/tasks/${task._id}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json"

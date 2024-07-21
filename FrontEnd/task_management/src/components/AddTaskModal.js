@@ -16,7 +16,7 @@ const AddTaskModal = ({ isOpen, onClose, onAddTask ,setname,setStatus,name,statu
             return;
         }
         console.log(name,status)
-       let data=await fetch("http://localhost:8000/task/addtask",{
+       let data=await fetch("https://voosh-task-management.vercel.app/task/addtask",{
             method: "POST",
                 headers: {
                     "Content-Type": "application/json"

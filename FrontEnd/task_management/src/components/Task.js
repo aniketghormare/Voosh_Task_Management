@@ -17,7 +17,7 @@ const Task = ({ task, index ,setTasks,onEdit,onViewDetails }) => {
     }))
     const handleDelete = async (id) => {
         try {
-            const response = await fetch(`http://localhost:8000/task/tasks/${id}`, {
+            const response = await fetch(`https://voosh-task-management.vercel.app/task/tasks/${id}`, {
                 method: "DELETE",
                 headers: {
                     'Content-Type': 'application/json'
