@@ -9,7 +9,9 @@ const app = express()
 app.use(cors())
 app.use(express.json())
 
-
+app.get("/",(req,res)=>{
+  res.json("Hello")
+})
 app.use("/task", TaskRouter)
 app.use("/user", Userrouter)
 let PORT =process.env.PORT || 8000
