@@ -10,7 +10,7 @@ app.use(cors())
 app.use(express.json())
 
 app.get("/",(req,res)=>{
-  res.json("Hello")
+  res.json({msg:"Hello"})
 })
 app.use("/task", TaskRouter)
 app.use("/user", Userrouter)
